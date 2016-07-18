@@ -8,11 +8,38 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
+   
+    @IBOutlet weak var pickerImageView: UIImageView!
+    
+     let imagePicker = UIImagePickerController()
+ 
+    @IBAction func library(sender: AnyObject) {
+        
+        imagePicker.sourceType = .PhotoLibrary
+        
+        presentViewController(imagePicker, animated: true, completion: nil)
+        
+    }
+    
+    
+    @IBAction func photo(sender: AnyObject) {
+        imagePicker.sourceType = .Camera
+        
+        imagePicker.cameraCaptureMode = .Photo
+        imagePicker.modalPresentationStyle = .FullScreen
+        
+        presentViewController(imagePicker, animated: true, completion: nil)
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+       
+        imagePicker.delegate = self
+       
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,6 +47,22 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]){
+        
+        let pickerImage = info[UIImagePickerControllerOriginalImage]as! UIImage
+        pickerImageView.image = pickerImage
+        dismissViewControllerAnimated(true, completion: nil)
+        
+    
+    
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController){
+        dismissViewControllerAnimated(true, completion: nil)
+        
+    }
 
 }
+
+
 
